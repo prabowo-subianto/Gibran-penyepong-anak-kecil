@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gibran Penyepong 🤓😹 CHAOS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #0c0c2f 0%, #1a0033 50%, #000428 100%);
+            color: #ffd700;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+            cursor: none;
+        }
+        .main-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(2.5rem, 10vw, 8rem);
+            font-weight: 900;
+            text-align: center;
+            text-shadow: 0 0 30px #ffd700, 0 0 60px #00ffff;
+            animation: glow 1.5s ease-in-out infinite alternate;
+            z-index: 100;
+            user-select: none;
+            pointer-events: none;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px #ffd700); }
+            to { filter: drop-shadow(0 0 50px #00ffff); }
+        }
+        .emoji {
+            position: fixed;
+            font-size: clamp(1.2rem, 3vw, 2.5rem);
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 10;
+            opacity: 0.9;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(120vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            padding: 12px 24px;
+            font-family: 'Orbitron', monospace;
+            cursor: pointer;
+            z-index: 200;
+            backdrop-filter: blur(15px);
+            font-weight: 700;
+        }
+        .fullscreen-btn:hover {
+            background: #ffd700;
+            color: #000;
+            box-shadow: 0 0 20px #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()"></button>
+    <div class="main-text">Gibran penyepong anak kecil 🤓😹</div>
+    
+    <script>
+        const emojis = ['🤓', '😹', '🤓🤓', '😹😹', '🤓😹'];
+        
+        function createEmoji() {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.fontSize = (Math.random() * 1.2 + 0.8) + 'rem';
+            emoji.style.animationDuration = (Math.random() * 4 + 4) + 's'; // Lebih cepat
+            emoji.style.animationDelay = '0s';
+            document.body.appendChild(emoji);
+            
+            // Hapus setelah animasi selesai
+            setTimeout(() => {
+                if (emoji.parentNode) emoji.remove();
+            }, 8000);
+        }
+        
+        // BURST AWAL 100 EMOJI SEKALIGUS
+        for(let i = 0; i < 100; i++) {
+            setTimeout(createEmoji, Math.random() * 500);
+        }
+        
+        // EMOJI JATUH SUPER BANYAK - 150 PER DETIK (setiap 6.6ms)
+        setInterval(createEmoji, 67); // 150 fps emoji rain!
+        
+        // Tambahan burst setiap 2 detik
+        setInterval(() => {
+            for(let i = 0; i < 30; i++) {
+                setTimeout(createEmoji, Math.random() * 200);
+            }
+        }, 2000);
+        
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // Auto fullscreen + start chaos
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (screen.availWidth === window.innerWidth) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                }
+            }, 500);
+        });
+        
+        // Mouse trail bonus
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() < 0.1) {
+                createEmoji();
+                const trail = document.createElement('div');
+                trail.textContent = Math.random() > 0.5 ? '🤓' : '😹';
+                trail.style.position = 'fixed';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                trail.style.fontSize = '1.5rem';
+                trail.style.pointerEvents = 'none';
+                trail.style.zIndex = '5';
+                trail.style.animation = 'fall 1s forwards';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 1000);
+            }
+        });
+    </script>
+</body>
+</html>
